@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" 
+            prefHeight="300.0" prefWidth="450.0" 
+            xmlns="http://javafx.com/javafx/11.0.1" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="edu.westga.cs3211.Pirate_Inventory_Ship_Manager.view.LoginCodeBehind">
+
+    <children>
+
+        <!-- Username Field -->
+        <Label layoutX="70.0" layoutY="80.0" text="Username">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <TextField fx:id="usernameTextField" layoutX="160.0" layoutY="75.0" prefWidth="200.0" />
+
+        <!-- Password Field -->
+        <Label layoutX="70.0" layoutY="130.0" text="Password">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <PasswordField fx:id="passwordField" layoutX="160.0" layoutY="125.0" prefWidth="200.0" />
+
+        <!-- Login Button -->
+        <Button fx:id="loginButton" layoutX="185.0" layoutY="190.0"
+                mnemonicParsing="false" text="Login" onAction="#handleLogin" />
+
+        <!-- Title Label -->
+        <Label layoutX="140.0" layoutY="20.0" text="Crew Login">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+
+    </children>
+
+</AnchorPane>
