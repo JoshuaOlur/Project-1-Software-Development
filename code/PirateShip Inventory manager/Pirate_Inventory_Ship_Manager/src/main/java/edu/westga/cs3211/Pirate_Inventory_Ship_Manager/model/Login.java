@@ -8,7 +8,7 @@ package edu.westga.cs3211.Pirate_Inventory_Ship_Manager.model;
  * System roles (Crewmate or Quartermaster) may be tied to the username.
  * 
  * 
- * @author CS 
+ * @author JO 
  * @version Fall 2025
  */
 public class Login {
@@ -90,9 +90,9 @@ public class Login {
 
     /**
      * Determines whether a provided username/password matches this Login object.
-     * <p>
+     * 
      * This supports the login verification step in the Login Use Case.
-     * </p>
+     * 
      * 
      * @param usernameAttempt the username entered by the user
      * @param passwordAttempt the password entered by the user

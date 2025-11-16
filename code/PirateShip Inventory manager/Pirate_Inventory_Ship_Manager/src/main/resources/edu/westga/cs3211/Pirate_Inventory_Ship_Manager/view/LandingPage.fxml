@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0"
+	prefWidth="450.0" xmlns="http://javafx.com/javafx/23.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="edu.westga.cs3211.Pirate_Inventory_Ship_Manager.view.LandingPageCodeBehind">
+
+	<children>
+
+		<Label layoutX="145.0" layoutY="20.0" text="Crew Landing">
+			<font>
+				<Font size="22.0" />
+			</font>
+		</Label>
+
+
+		<Button fx:id="addStockButton" layoutX="160.0" layoutY="80.0"
+			onAction="#handleAddStock" prefHeight="56.0" prefWidth="123.0"
+			text="Add Stock" />
+
+
+		<Button fx:id="viewStockChangesButton" layoutX="143.0"
+			layoutY="150.0" onAction="#handleViewStockChanges" prefHeight="78.0"
+			prefWidth="164.0" text="View Stock Changes" />
+			
+		<Button fx:id="logoutButton" layoutX="185.0" layoutY="240.0"
+			onAction="#handleLogout" text="Logout" />
+
+	</children>
+
+</AnchorPane>

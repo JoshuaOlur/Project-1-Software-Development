@@ -10,7 +10,7 @@ import java.util.List;
  * system must log when stock is added to a compartment.
  * 
  * 
- * @author CS
+ * @author JO
  * @version Fall 2025
  */
 public class Stock {
@@ -57,11 +57,11 @@ public class Stock {
      *      getQualities() == qualities &&
      *      getExpirationDate() == expirationDate
      *
-     * @param name            the name of the stock item
-     * @param quantity        the quantity being added
-     * @param condition       the condition of the stock (perfect, usable, unusable)
-     * @param qualities       list of special qualities such as flammable or liquid
-     * @param expirationDate  expiration date if PERISHABLE stock; otherwise may be null
+     * @param name the name of the stock item
+     * @param quantity the quantity being added
+     * @param condition the condition of the stock (perfect, usable, unusable)
+     * @param qualities  list of special qualities such as flammable or liquid
+     * @param expirationDate expiration date if PERISHABLE stock; otherwise may be null
      * 
      * @throws IllegalArgumentException if preconditions are violated
      */

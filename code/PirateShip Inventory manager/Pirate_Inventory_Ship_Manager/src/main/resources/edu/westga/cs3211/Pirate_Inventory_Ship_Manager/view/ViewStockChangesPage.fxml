@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="877.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.westga.cs3211.Pirate_Inventory_Ship_Manager.view.ViewStockChangesCodeBehind">
+
+	<children>
+
+		<Label layoutX="300.0" layoutY="20.0" text="StockChange Log">
+			<font>
+				<Font size="24.0" />
+			</font>
+		</Label>
+
+
+		<VBox layoutX="20.0" layoutY="60.0" prefWidth="760.0" spacing="15.0">
+			<padding>
+				<Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+			</padding>
+
+
+			<Label text="Filters:">
+				<font>
+					<Font size="16.0" style="BOLD" />
+				</font>
+			</Label>
+
+
+			<VBox spacing="5.0">
+				<Label text="Filter by Special Quality:">
+					<font>
+						<Font size="14.0" />
+					</font>
+				</Label>
+				<HBox spacing="15.0">
+					<CheckBox fx:id="filterFlammableCheckBox" text="Flammable" />
+					<CheckBox fx:id="filterLiquidCheckBox" text="Liquid" />
+					<CheckBox fx:id="filterPerishableCheckBox" text="Perishable" />
+				</HBox>
+			</VBox>
+
+
+			<HBox alignment="CENTER_LEFT" spacing="10.0">
+				<Label prefWidth="150.0" text="Filter by CrewMate:">
+					<font>
+						<Font size="14.0" />
+					</font>
+				</Label>
+				<ComboBox fx:id="crewMateComboBox" prefWidth="200.0" />
+			</HBox>
+
+
+			<VBox spacing="10.0">
+				<Label text="Filter by Time Range:">
+					<font>
+						<Font size="14.0" />
+					</font>
+				</Label>
+				<HBox alignment="CENTER_LEFT" spacing="10.0">
+					<Label text="From:" />
+					<DatePicker fx:id="startDatePicker" prefWidth="150.0" />
+					<Label text="To:" />
+					<DatePicker fx:id="endDatePicker" prefWidth="150.0" />
+					<Button fx:id="applyTimeFilterButton" onAction="#handleApplyTimeFilter" text="Apply Time Filter" />
+				</HBox>
+			</VBox>
+
+
+			<HBox spacing="15.0">
+				<Button fx:id="applyFiltersButton" onAction="#handleApplyFilters" prefWidth="120.0" text="Apply Filters" />
+				<Button fx:id="clearFiltersButton" onAction="#handleClearFilters" prefWidth="120.0" text="Clear Filters" />
+			</HBox>
+
+
+			<Label fx:id="errorLabel" prefWidth="760.0" textFill="red" wrapText="true" />
+
+
+			<VBox spacing="5.0">
+				<Label text="Stock Changes (Most Recent First):">
+					<font>
+						<Font size="16.0" style="BOLD" />
+					</font>
+				</Label>
+				<ListView fx:id="stockChangesListView" prefHeight="300.0" prefWidth="760.0" />
+			</VBox>
+
+
+			<VBox spacing="5.0">
+				<Label text="Selected Change Details:">
+					<font>
+						<Font size="14.0" style="BOLD" />
+					</font>
+				</Label>
+				<Label fx:id="detailsLabel" prefHeight="60.0" prefWidth="760.0" style="-fx-border-color: lightgray; -fx-padding: 5px;" wrapText="true" />
+			</VBox>
+
+
+			<HBox alignment="CENTER" spacing="20.0">
+				<Button fx:id="backButton" onAction="#handleBack" prefWidth="120.0" text="Back to Landing" />
+				<Button fx:id="refreshButton" onAction="#handleRefresh" prefWidth="120.0" text="Refresh" />
+			</HBox>
+		</VBox>
+	</children>
+</AnchorPane>
