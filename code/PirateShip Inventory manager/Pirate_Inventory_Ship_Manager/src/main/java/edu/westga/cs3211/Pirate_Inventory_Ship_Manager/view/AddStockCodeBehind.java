@@ -173,7 +173,7 @@ public class AddStockCodeBehind {
 
 			StockLogger.logStockChange(username, stockName, quantity, condition, qualities.toString().trim(), storage);
 
-			this.errorLabel.setText("Stock added successfully and logged to file!");
+			this.errorLabel.setText("Stock succesuflly logged!");
 			this.errorLabel.setStyle("-fx-text-fill: green;");
 
 			this.clearForm();
