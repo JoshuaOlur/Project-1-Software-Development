@@ -145,39 +145,41 @@ public class AddStockCodeBehind {
 	 */
 	@FXML
 	private void handleAddStock() {
-		if (this.validateInput()) {
+	    if (this.validateInput()) {
+	        String username = "Unknown User";
+	        if (this.loginViewModel != null) {
+	            username = this.loginViewModel.getCurrentUsername();
+	        }
+	        if (username == null) {
+	            username = "Unknown User";
+	        }
 
-			String username = this.loginViewModel != null ? this.loginViewModel.getCurrentUsername() : null;
-			if (username == null) {
-				username = "Unknown User";
-			}
+	        String stockName = this.nameTextField.getText().trim();
+	        int quantity = this.quantitySpinner.getValue();
+	        String condition = this.conditionComboBox.getValue();
+	        String storage = this.storageComboBox.getValue();
 
-			String stockName = this.nameTextField.getText().trim();
-			int quantity = this.quantitySpinner.getValue();
-			String condition = this.conditionComboBox.getValue();
-			String storage = this.storageComboBox.getValue();
+	        StringBuilder qualities = new StringBuilder();
+	        if (this.flammableCheckBox.isSelected()) {
+	            qualities.append("FLAMMABLE ");
+	        }
+	        if (this.liquidCheckBox.isSelected()) {
+	            qualities.append("LIQUID ");
+	        }
+	        if (this.perishableCheckBox.isSelected()) {
+	            qualities.append("PERISHABLE ");
+	        }
+	        if (qualities.length() == 0) {
+	            qualities.append("NONE");
+	        }
 
-			StringBuilder qualities = new StringBuilder();
-			if (this.flammableCheckBox.isSelected()) {
-				qualities.append("FLAMMABLE ");
-			}
-			if (this.liquidCheckBox.isSelected()) {
-				qualities.append("LIQUID ");
-			}
-			if (this.perishableCheckBox.isSelected()) {
-				qualities.append("PERISHABLE ");
-			}
-			if (qualities.length() == 0) {
-				qualities.append("NONE");
-			}
+	        StockLogger.logStockChange(username, stockName, quantity, condition, qualities.toString().trim(), storage);
 
-			StockLogger.logStockChange(username, stockName, quantity, condition, qualities.toString().trim(), storage);
-
-			this.errorLabel.setText("Stock succesuflly logged!");
-			this.errorLabel.setStyle("-fx-text-fill: green;");
-
-			this.clearForm();
-		}
+	        this.errorLabel.setText("Stock logged successfully");
+	        this.errorLabel.setStyle("-fx-text-fill: green;");
+	        
+	        this.clearForm();
+	    }
 	}
 
 	/**
