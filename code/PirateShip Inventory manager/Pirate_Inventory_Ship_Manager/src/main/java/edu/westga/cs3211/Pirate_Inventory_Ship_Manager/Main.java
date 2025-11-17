@@ -15,7 +15,7 @@ import javafx.scene.layout.Pane;
  */
 public class Main extends Application {
 
-	private static final String WINDOW_TITLE = "LoginPage";
+	private static final String WINDOW_TITLE = "PirateShip Inventory System";
 	private static final String GUI_FXML = "view/initialPage.fxml";
 
 	@Override

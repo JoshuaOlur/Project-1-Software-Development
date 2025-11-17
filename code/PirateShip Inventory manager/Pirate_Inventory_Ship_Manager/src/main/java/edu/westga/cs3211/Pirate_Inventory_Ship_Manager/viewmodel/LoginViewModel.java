@@ -6,10 +6,10 @@ import edu.westga.cs3211.Pirate_Inventory_Ship_Manager.model.Login;
 
 /**
  * ViewModel for handling user login.
- * <p>
+ * 
  * Supports the Login Use Case by storing username and password input, verifying
  * credentials, and exposing appropriate UI messages.
- * </p>
+ * 
  * 
  * @author JO
  * @version Fall 2025
@@ -20,6 +20,7 @@ public class LoginViewModel {
 	private StringProperty passwordProperty;
 	private StringProperty errorMessageProperty;
 	private Login.UserRole currentUserRole;
+	private String currentUsername;
 
 	/**
 	 * Creates a new LoginViewModel. Initializes properties and sample user
@@ -30,6 +31,7 @@ public class LoginViewModel {
 		this.passwordProperty = new SimpleStringProperty("");
 		this.errorMessageProperty = new SimpleStringProperty("");
 		this.currentUserRole = null;
+		this.currentUsername = null;
 	}
 
 	/**
@@ -53,12 +55,14 @@ public class LoginViewModel {
 
 		if (username.equals("crew1") && password.equals("password")) {
 			this.currentUserRole = Login.UserRole.CREWMATE;
+			this.currentUsername = username;
 			this.errorMessageProperty.set("");
 			return this.currentUserRole;
 		}
 
 		if (username.equals("qm1") && password.equals("password")) {
 			this.currentUserRole = Login.UserRole.QUARTERMASTER;
+			this.currentUsername = username;
 			this.errorMessageProperty.set("");
 			return this.currentUserRole;
 		}
@@ -72,6 +76,10 @@ public class LoginViewModel {
 	 */
 	public void clearLogin() {
 		this.currentUserRole = null;
+		this.currentUsername = null;
+		this.usernameProperty.set("");
+		this.passwordProperty.set("");
+		this.errorMessageProperty.set("");
 	}
 
 	/**
@@ -99,5 +107,14 @@ public class LoginViewModel {
 	 */
 	public StringProperty errorMessageProperty() {
 		return this.errorMessageProperty;
+	}
+
+	/**
+	 * Returns the current logged-in username.
+	 * 
+	 * @return the current username
+	 */
+	public String getCurrentUsername() {
+		return this.currentUsername;
 	}
 }

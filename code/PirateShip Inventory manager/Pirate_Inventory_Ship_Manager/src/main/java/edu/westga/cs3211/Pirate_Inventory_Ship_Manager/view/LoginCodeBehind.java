@@ -15,7 +15,7 @@ import javafx.scene.Scene;
 /**
  * Code-behind for the login screen. Handles login logic and scene switching.
  * 
- * @author JO
+ * @author CS
  * @version Fall 2025
  */
 public class LoginCodeBehind {
@@ -80,6 +80,7 @@ public class LoginCodeBehind {
 
 			LandingPageCodeBehind controller = loader.getController();
 			controller.setUserRole(role);
+			controller.setLoginViewModel(this.viewModel);
 
 			Stage stage = (Stage) this.loginButton.getScene().getWindow();
 			stage.setScene(landingPageScene);

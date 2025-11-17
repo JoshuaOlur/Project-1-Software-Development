@@ -1,5 +1,6 @@
 package edu.westga.cs3211.Pirate_Inventory_Ship_Manager.view;
 
+import edu.westga.cs3211.Pirate_Inventory_Ship_Manager.viewmodel.LoginViewModel;
 import edu.westga.cs3211.Pirate_Inventory_Ship_Manager.model.Login;
 
 import javafx.fxml.FXML;
@@ -27,12 +28,13 @@ public class LandingPageCodeBehind {
 	private Button logoutButton;
 
 	private Login.UserRole userRole;
+	private LoginViewModel loginViewModel;
 
 	/**
 	 * Creates a new LandingPageCodeBehind instance.
 	 */
 	public LandingPageCodeBehind() {
-		
+
 	}
 
 	/**
@@ -46,11 +48,20 @@ public class LandingPageCodeBehind {
 	}
 
 	/**
+	 * Sets the login view model to track the current user.
+	 * 
+	 * @param viewModel the login view model
+	 */
+	public void setLoginViewModel(LoginViewModel viewModel) {
+		this.loginViewModel = viewModel;
+	}
+
+	/**
 	 * Initializes the landing page and controls visibility of buttons.
 	 */
 	@FXML
 	private void initialize() {
-		
+
 	}
 
 	/**
@@ -67,8 +78,8 @@ public class LandingPageCodeBehind {
 	}
 
 	/**
-	 * Handles the action of clicking the "Add Stock" button. 
-	 * Navigates to the Add Stock page.
+	 * Handles the action of clicking the "Add Stock" button. Navigates to the Add
+	 * Stock page.
 	 */
 	@FXML
 	private void handleAddStock() {
@@ -76,8 +87,8 @@ public class LandingPageCodeBehind {
 	}
 
 	/**
-	 * Handles the action of clicking the "View Stock Changes" button. 
-	 * Navigates to the View Stock Changes page.
+	 * Handles the action of clicking the "View Stock Changes" button. Navigates to
+	 * the View Stock Changes page.
 	 */
 	@FXML
 	private void handleViewStockChanges() {
@@ -102,6 +113,9 @@ public class LandingPageCodeBehind {
 					getClass().getResource("/edu/westga/cs3211/Pirate_Inventory_Ship_Manager/view/AddStockPage.fxml"));
 			Scene addStockScene = new Scene(loader.load());
 
+			AddStockCodeBehind controller = loader.getController();
+			controller.setLoginViewModel(this.loginViewModel);
+
 			Stage stage = (Stage) this.addStockButton.getScene().getWindow();
 			stage.setScene(addStockScene);
 			stage.show();
@@ -115,8 +129,8 @@ public class LandingPageCodeBehind {
 	 */
 	private void loadViewStockChangesPage() {
 		try {
-			FXMLLoader loader = new FXMLLoader(
-					getClass().getResource("/edu/westga/cs3211/Pirate_Inventory_Ship_Manager/view/ViewStockChangesPage.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass()
+					.getResource("/edu/westga/cs3211/Pirate_Inventory_Ship_Manager/view/ViewStockChangesPage.fxml"));
 			Scene viewStockChangesScene = new Scene(loader.load());
 
 			Stage stage = (Stage) this.viewStockChangesButton.getScene().getWindow();
@@ -132,6 +146,11 @@ public class LandingPageCodeBehind {
 	 */
 	private void loadLoginPage() {
 		try {
+
+			if (this.loginViewModel != null) {
+				this.loginViewModel.clearLogin();
+			}
+
 			FXMLLoader loader = new FXMLLoader(
 					getClass().getResource("/edu/westga/cs3211/Pirate_Inventory_Ship_Manager/view/initialPage.fxml"));
 			Scene loginPageScene = new Scene(loader.load());

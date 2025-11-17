@@ -1,5 +1,7 @@
 package edu.westga.cs3211.Pirate_Inventory_Ship_Manager.view;
 
+import edu.westga.cs3211.Pirate_Inventory_Ship_Manager.model.StockLogger;
+import edu.westga.cs3211.Pirate_Inventory_Ship_Manager.viewmodel.LoginViewModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,7 +20,7 @@ import javafx.stage.Stage;
  * Code-behind for the Add Stock page. Handles the form for adding new stock to
  * the system according to the Add Stock Use Case.
  * 
- * @author CS
+ * @author JO
  * @version Fall 2025
  */
 public class AddStockCodeBehind {
@@ -62,6 +64,8 @@ public class AddStockCodeBehind {
 	@FXML
 	private Button cancelButton;
 
+	private LoginViewModel loginViewModel;
+
 	/**
 	 * Initializes the Add Stock page.
 	 */
@@ -71,6 +75,15 @@ public class AddStockCodeBehind {
 		this.setupConditionComboBox();
 		this.setupEventHandlers();
 		this.setupStorageComboBox();
+	}
+
+	/**
+	 * Sets the login view model to track the current user.
+	 * 
+	 * @param viewModel the login view model
+	 */
+	public void setLoginViewModel(LoginViewModel viewModel) {
+		this.loginViewModel = viewModel;
 	}
 
 	/**
@@ -93,7 +106,6 @@ public class AddStockCodeBehind {
 	 * Sets up event handlers for interactive elements.
 	 */
 	private void setupEventHandlers() {
-
 		this.perishableCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
 			this.expirationDateContainer.setVisible(newValue);
 			if (newValue) {
@@ -110,7 +122,6 @@ public class AddStockCodeBehind {
 	 * Sets up the storage compartment combo box with sample data.
 	 */
 	private void setupStorageComboBox() {
-
 		this.storageComboBox.getItems().addAll("Storage A - General (Capacity: 100)",
 				"Storage B - Flammables (Capacity: 50)", "Storage C - Liquids (Capacity: 75)",
 				"Storage D - Perishables (Capacity: 60)");
@@ -136,7 +147,33 @@ public class AddStockCodeBehind {
 	private void handleAddStock() {
 		if (this.validateInput()) {
 
-			this.errorLabel.setText("Stock added successfully!");
+			String username = this.loginViewModel != null ? this.loginViewModel.getCurrentUsername() : null;
+			if (username == null) {
+				username = "Unknown User";
+			}
+
+			String stockName = this.nameTextField.getText().trim();
+			int quantity = this.quantitySpinner.getValue();
+			String condition = this.conditionComboBox.getValue();
+			String storage = this.storageComboBox.getValue();
+
+			StringBuilder qualities = new StringBuilder();
+			if (this.flammableCheckBox.isSelected()) {
+				qualities.append("FLAMMABLE ");
+			}
+			if (this.liquidCheckBox.isSelected()) {
+				qualities.append("LIQUID ");
+			}
+			if (this.perishableCheckBox.isSelected()) {
+				qualities.append("PERISHABLE ");
+			}
+			if (qualities.length() == 0) {
+				qualities.append("NONE");
+			}
+
+			StockLogger.logStockChange(username, stockName, quantity, condition, qualities.toString().trim(), storage);
+
+			this.errorLabel.setText("Stock added successfully and logged to file!");
 			this.errorLabel.setStyle("-fx-text-fill: green;");
 
 			this.clearForm();
@@ -157,7 +194,6 @@ public class AddStockCodeBehind {
 	 * @return true if all input is valid, false otherwise
 	 */
 	private boolean validateInput() {
-
 		if (this.nameTextField.getText() == null || this.nameTextField.getText().trim().isEmpty()) {
 			this.errorLabel.setText("Stock name is required.");
 			return false;

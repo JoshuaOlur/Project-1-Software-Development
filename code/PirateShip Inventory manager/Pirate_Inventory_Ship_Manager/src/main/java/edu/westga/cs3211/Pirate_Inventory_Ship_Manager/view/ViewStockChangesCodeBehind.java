@@ -1,5 +1,6 @@
 package edu.westga.cs3211.Pirate_Inventory_Ship_Manager.view;
 
+import edu.westga.cs3211.Pirate_Inventory_Ship_Manager.model.StockLogger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,11 +12,13 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.CheckBox;
 import javafx.stage.Stage;
 
+import java.util.List;
+
 /**
  * Code-behind for the View Stock Changes page. Handles displaying and filtering
- * stock changes according to the View Stock Changes Use Case.
+ * stock changes from the log file.
  * 
- * @author CS
+ * @author JO
  * @version Fall 2025
  */
 public class ViewStockChangesCodeBehind {
@@ -69,23 +72,21 @@ public class ViewStockChangesCodeBehind {
 	private void initialize() {
 		this.setupCrewMateComboBox();
 		this.setupEventHandlers();
-		this.loadSampleData();
+		this.loadStockChanges();
 	}
 
 	/**
-	 * Sets up the CrewMate combo box with sample data.
+	 * Sets up the CrewMate combo box with usernames.
 	 */
 	private void setupCrewMateComboBox() {
-		this.crewMateComboBox.getItems().addAll("All CrewMates", "Jack Sparrow", "Will Turner", "Elizabeth Swann",
-				"Joshamee Gibbs");
-		this.crewMateComboBox.setValue("All CrewMates");
+		this.crewMateComboBox.getItems().addAll("All Users", "crew1", "qm1");
+		this.crewMateComboBox.setValue("All Users");
 	}
 
 	/**
 	 * Sets up event handlers for interactive elements.
 	 */
 	private void setupEventHandlers() {
-
 		this.stockChangesListView.getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> {
 					this.updateDetailsLabel(newValue);
@@ -93,25 +94,21 @@ public class ViewStockChangesCodeBehind {
 	}
 
 	/**
-	 * Loads sample data for demonstration.
+	 * Loads stock changes from the log file.
 	 */
-	private void loadSampleData() {
-		this.stockChangesListView.getItems().addAll(
-				"[2024-01-15 10:30] Jack Sparrow added 5 x Rum to Storage C (Condition: PERFECT, Qualities: [LIQUID])",
-				"[2024-01-15 09:15] Will Turner added 10 x Cannonballs to Storage A (Condition: USABLE, Qualities: [])",
-				"[2024-01-14 16:45] Elizabeth Swann added 3 x Medical Supplies to Storage D (Condition: PERFECT, Qualities: [PERISHABLE])",
-				"[2024-01-14 14:20] Joshamee Gibbs added 8 x Gunpowder to Storage B (Condition: USABLE, Qualities: [FLAMMABLE])",
-				"[2024-01-13 11:10] Jack Sparrow added 15 x Food Rations to Storage D (Condition: USABLE, Qualities: [PERISHABLE])");
+	private void loadStockChanges() {
+		List<String> stockChanges = StockLogger.readStockChanges();
+		this.stockChangesListView.getItems().setAll(stockChanges);
 	}
 
 	/**
-	 * Updates the details label with information about the selected stock change.
+	 * Updates the details label with the selected stock change.
 	 * 
-	 * @param selectedItem the selected stock change string
+	 * @param selectedItem item currently selected
 	 */
 	private void updateDetailsLabel(String selectedItem) {
 		if (selectedItem != null) {
-			this.detailsLabel.setText("Full details: " + selectedItem);
+			this.detailsLabel.setText(selectedItem);
 		} else {
 			this.detailsLabel.setText("Select a stock change to view details");
 		}
@@ -123,8 +120,7 @@ public class ViewStockChangesCodeBehind {
 	@FXML
 	private void handleApplyTimeFilter() {
 		if (this.startDatePicker.getValue() != null && this.endDatePicker.getValue() != null) {
-			if (this.endDatePicker.getValue().isBefore(this.startDatePicker.getValue())
-					|| this.endDatePicker.getValue().equals(this.startDatePicker.getValue())) {
+			if (this.endDatePicker.getValue().isBefore(this.startDatePicker.getValue())) {
 				this.errorLabel.setText("Error: End date must be after start date.");
 				return;
 			}
@@ -149,13 +145,11 @@ public class ViewStockChangesCodeBehind {
 		this.filterFlammableCheckBox.setSelected(false);
 		this.filterLiquidCheckBox.setSelected(false);
 		this.filterPerishableCheckBox.setSelected(false);
-		this.crewMateComboBox.setValue("All CrewMates");
+		this.crewMateComboBox.setValue("All Users");
 		this.startDatePicker.setValue(null);
 		this.endDatePicker.setValue(null);
 		this.errorLabel.setText("");
-
-		this.stockChangesListView.getItems().clear();
-		this.loadSampleData();
+		this.loadStockChanges();
 	}
 
 	/**
@@ -163,8 +157,7 @@ public class ViewStockChangesCodeBehind {
 	 */
 	@FXML
 	private void handleRefresh() {
-		this.stockChangesListView.getItems().clear();
-		this.loadSampleData();
+		this.loadStockChanges();
 		this.errorLabel.setText("Data refreshed successfully!");
 	}
 
@@ -177,14 +170,30 @@ public class ViewStockChangesCodeBehind {
 	}
 
 	/**
-	 * Applies all active filters to the data.
+	 * Applies filters to the stock changes.
 	 */
 	private void applyFilters() {
+		List<String> allChanges = StockLogger.readStockChanges();
+		List<String> filteredChanges = allChanges;
 
-		this.errorLabel.setText("Filters applied! (Sample implementation)");
+		String selectedUser = this.crewMateComboBox.getValue();
+		if (!"All Users".equals(selectedUser)) {
+			filteredChanges = filteredChanges.stream().filter(change -> change.contains("User: " + selectedUser))
+					.toList();
+		}
 
-		this.stockChangesListView.getItems().clear();
-		this.loadSampleData();
+		if (this.filterFlammableCheckBox.isSelected()) {
+			filteredChanges = filteredChanges.stream().filter(change -> change.contains("FLAMMABLE")).toList();
+		}
+		if (this.filterLiquidCheckBox.isSelected()) {
+			filteredChanges = filteredChanges.stream().filter(change -> change.contains("LIQUID")).toList();
+		}
+		if (this.filterPerishableCheckBox.isSelected()) {
+			filteredChanges = filteredChanges.stream().filter(change -> change.contains("PERISHABLE")).toList();
+		}
+
+		this.stockChangesListView.getItems().setAll(filteredChanges);
+		this.errorLabel.setText("Filters applied! Showing " + filteredChanges.size() + " entries.");
 	}
 
 	/**
